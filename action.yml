@@ -1,0 +1,26 @@
+name: Deploy with GIT
+description: Connects with SSH and pulls in GIT
+
+inputs:
+  privkey:
+    description: Full private key for SSH, with `-----BEGIN` and `-----END` lines
+    required: true
+  host:
+    description: SSH target, eg. `user@example.com`
+    required: true
+  path:
+    description: Path of app on remote server, eg. /var/www/mywebsite
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Copy privkey
+      env:
+        PRIVKEY: ${{ inputs.privkey }}
+      run: echo "$PRIVKEY" > ~/privkey && chmod 0600 ~/privkey
+    - name: Deploy to server
+      env:
+        SSH_HOST: ${{ inputs.host }}
+        SSH_TARGET_DIR: ${{ inputs.path }}
+      run: ssh -q -i ~/privkey -o "StrictHostKeyChecking=no" "$SSH_HOST" -- 'cd "'${SSH_TARGET_DIR}'" && git status && echo "====" && git pull && echo "====" && composer install -o --no-dev'
