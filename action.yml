@@ -19,8 +19,10 @@ runs:
       env:
         PRIVKEY: ${{ inputs.privkey }}
       run: echo "$PRIVKEY" > ~/privkey && chmod 0600 ~/privkey
+      shell: bash
     - name: Deploy to server
       env:
         SSH_HOST: ${{ inputs.host }}
         SSH_TARGET_DIR: ${{ inputs.path }}
       run: ssh -q -i ~/privkey -o "StrictHostKeyChecking=no" "$SSH_HOST" -- 'cd "'${SSH_TARGET_DIR}'" && git status && echo "====" && git pull && echo "====" && composer install -o --no-dev'
+      shell: bash
