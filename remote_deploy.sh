@@ -8,4 +8,4 @@ git pull || exit 2
 
 echo "===="
 
-composer install -o --no-dev
+[ -f "composer.json" ] && composer install -o --no-dev || echo "No composer"
