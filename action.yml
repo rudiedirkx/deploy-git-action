@@ -24,5 +24,5 @@ runs:
       env:
         SSH_HOST: ${{ inputs.host }}
         SSH_TARGET_DIR: ${{ inputs.path }}
-      run: ssh -t -A -i ~/privkey -o "StrictHostKeyChecking=no" "$SSH_HOST" "bash -s" -- < "${GITHUB_ACTION_PATH}/remote_deploy.sh" "$SSH_TARGET_DIR"
+      run: ssh -t -i ~/privkey -o "StrictHostKeyChecking=no" "$SSH_HOST" "bash -s" -- < "${GITHUB_ACTION_PATH}/remote_deploy.sh" "$SSH_TARGET_DIR"
       shell: bash
