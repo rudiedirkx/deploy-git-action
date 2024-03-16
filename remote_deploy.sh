@@ -4,6 +4,7 @@ git status
 
 echo "===="
 
+git checkout .
 git pull || exit 2
 
 echo "===="
